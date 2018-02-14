@@ -1,15 +1,21 @@
 pragma solidity ^0.4.0;
 
 contract Item {
-    address private owner;
-    address private leasee;
-    string private name;
-    string private desc;
-    uint private created;
-    uint private leased;       
-    uint private value;
-    bool private available;
-    uint private balance;
+    
+    struct LeaseItem {
+        uint key;
+        address owner;
+        address leasee;
+        string name;
+        string desc;
+        uint created;
+        uint leased;       
+        uint value;
+        bool available;
+        uint balance;
+    }
+    
+    //Mapping - each Item struct has an address in mapping
     
     //Access modification - Func based on owner
     modifier ownerFunc {
@@ -27,15 +33,18 @@ contract Item {
         _;                                          //executes check BEFORE func in this case
     }
     
+    mapping(uint => LeaseItem) public leaseItems;
+    
     //Constructor
-    function Item (string name_, string desc_, uint value_) public {
-        owner = msg.sender;
-        name = name_;
-        desc = desc_;
-        created = block.timestamp;
-        value = value_;
-        available = true;
-        balance = getBalance();
+    function addItem (uint key, LeaseItem item ) public {
+        leaseItems[key].key = key_;
+        leaseItems[key].value = item_;
+        //Item[key].owner = msg.sender;
+        //Item[key].name = name_;
+        //Item[key].desc = desc_;
+        //Item[key].created = block.timestamp;
+        //Item[key].value = value_;
+        //Item[key].available = true;
     }
     
     //Lease requires a payment to the Item/contract address, part goes to owner as rent while the rest remains in contract

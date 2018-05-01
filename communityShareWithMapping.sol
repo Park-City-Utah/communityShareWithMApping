@@ -63,7 +63,7 @@ contract Item {
     function returnItem() public ownerFunc {
         LeaseItem storage sender = leaseItems[msg.sender];
         require(sender.available == false);                        //Can't return an un leased item
-        if(sender.balance > 0) { address(sender).leasee).transfer(sender.balance); }
+        if(sender.balance > 0) { address(sender.leasee).transfer(sender.balance); }
         _leaseItems[msg.sender].leasee = 0;                                         //Clear leasee address - no longer leasee
         _leaseItems[msg.sender].available = true;
         _leaseItems[msg.sender].leased = 0;                                         //Reset leased timestamp
